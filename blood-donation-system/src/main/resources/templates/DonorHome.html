@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Donor Home</title>
+    <style>
+        /* Body reset */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(snow);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Container for the two panels */
+        .container {
+            display: flex;
+            min-height: 80vh;
+            width: 41.5%;
+            background-color: snow;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        /* Left panel styling */
+        .left-panel {
+            background: linear-gradient(#FF7878, #d11111);
+            flex: 0 0 250px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            position: relative;
+        }
+
+        .left-panel label {
+            display: flex; /* Enables horizontal flexbox */
+            align-items: center; /* Aligns text vertically with the image */
+            text-align: center;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .left-panel button {
+            width: 100%;
+            padding: 14px;
+            margin-bottom: 0;
+            border: none;
+            cursor: pointer;
+            background: transparent;
+            color: white;
+            display: flex; /* Use flexbox for icon alignment */
+            align-items: center; /* Vertically center icon and text */
+            justify-content: center; /* Align items to the start (left) */
+        }
+
+        .left-panel label img {
+            margin-top: 10px; /* Add some space between icon and text */
+            height: 75%; /* Adjust icon size as needed */
+            width: 75%;
+        }
+
+        .text-group {
+            display: flex;
+            flex-direction: column; /* Stack "Donor" and "LifeFlow" */
+            align-items: flex-start; /* Align text next to the image */
+            justify-content: center; /* Ensure vertical centering */
+        }
+
+        .left-panel button:hover,
+        .left-panel button:active {
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+        }
+
+        .left-panel button img {
+            font-size: 16px;
+            font-weight: 600;
+            margin-right: 5px; /* Adjust spacing as needed */
+            height: 25px; /* Adjust icon size */
+            width: 25px;
+        }
+
+        .left-panel .logout-btn {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .left-panel .separator {
+            margin: 20px 0;
+            border: 0;
+            height: 1px;
+            background: #f2d8d8;
+        }
+
+        /* Right panel styling */
+        .right-panel {
+            flex: 1;
+            background-color: snow;
+            position: relative;
+            padding: 20px;
+        }
+
+        /* Stack container for different panels */
+        .stack-panel {
+            position: absolute;
+            top: 60px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        .panel {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            padding: 20px;
+        }
+
+        .panel.active {
+            display: block;
+        }
+
+        .panel h2 {
+            text-align: center;
+            color: #a80000;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .panel label {
+            color: #a80000;
+            font-size: 14px;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .panel input[type="text"],
+        .panel input[type="date"],
+        .panel input[type="time"] {
+            width: 95%;
+            padding: 8px;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .panel button {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: none;
+            border-radius: 4px;
+            background: linear-gradient(#ffe2d1, #ed6969);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.6);
+            cursor: pointer;
+            margin: 10px auto;
+        }
+
+        .panel button:hover,
+        .panel button:active {
+            background: linear-gradient(#ffdbca, #e06161);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+        }
+
+        .message {
+            text-align: center;
+            font-size: 14px;
+            margin-top: 10px;
+            color: #b20808;
+        }
+
+        /* Table styling for appointment history */
+        .table-container {
+            max-height: 550px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="left-panel">
+        <label id="userLabel">
+            <img src="/user_icon.png" alt="User Icon">
+            <div class="text-group">
+                <span>Donor</span>
+                <span class="sub-text">LifeFlow</span>
+            </div>
+        </label>
+        <hr class="separator">
+        <button id="scheduleButton" onclick="showPanel('schedulePanel')">Schedule Appointment</button>
+        <button id="viewHistoryButton" onclick="showPanel('historyPanel')"> View History </button>
+        <hr class="separator">
+        <button class="logout-btn" onclick="logout()">
+            <img src="/logout_icon.png" alt="Logout">Logout
+        </button>
+    </div>
+
+    <div class="right-panel">
+        <div id="welcomeLabel" class="panel">
+            <label>
+                <span th:text="'Welcome, ' + ${username}"></span>
+            </label>
+        </div>
+        <div class="stack-panel">
+            <div id="schedulePanel" class="panel">
+                <h2>Schedule Appointment</h2>
+                <form th:action="@{/donorHome/schedule}" method="post">
+                    <label for="appointmentDate">Select Date:</label>
+                    <input type="date" name="date" id="appointmentDate" required />
+                    <label for="appointmentTime">Select Time Slot:</label>
+                    <input type="time" name="time" id="appointmentTime" required />
+                    <button type="submit">Confirm Appointment</button>
+                    <div id="messageLabel" class="message" th:if="${signUpMessage}">
+                        <p th:text="${errorMessage}"></p>
+                    </div>
+                </form>
+            </div>
+
+            <div id="historyPanel" class="panel">
+                <h2>View Appointment History</h2>
+                <div class="table-container">
+                    <table th:if="${not #lists.isEmpty(appointments)}">
+                        <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Status</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="appointment : ${appointments}">
+                            <td th:text="${#temporals.format(appointment.appointmentDate, 'dd-MMM-yyyy')}"></td>
+                            <td th:text="${#temporals.format(appointment.appointmentDate, 'HH:mm')}"></td>
+                            <td th:text="${appointment.status}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <p th:if="${#lists.isEmpty(appointments)}">No appointments found</p>
+                    <div id="messageLabel1" class="message" th:if="${errorMessage}">
+                        <p th:text="${errorMessage}"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Function to toggle panels based on the left menu button clicks
+    function showPanel(panelId) {
+        document.querySelectorAll('.panel').forEach(panel => panel.style.display = "none");
+        document.getElementById(panelId).style.display = "block";
+    }
+
+    // Simulated logout action – in a real app, perform server-side logout then redirect
+    function logout() {
+        window.location.href = '/logout';
+    }
+</script>
+</body>
+</html>

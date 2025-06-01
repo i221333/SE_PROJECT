@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Login</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(snow); /* Apply background gradient to the body */
+            display: flex; /* Enable flexbox for centering */
+            justify-content: center; /* Center content horizontally */
+            align-items: center; /* Center content vertically */
+            min-height: 100vh; /* Ensure body takes full viewport height */
+        }
+
+        /* Main container: two columns (left panel and right panel) */
+        .container {
+            display: flex;
+            height: auto;
+            width: 36.5%; /* Adjust width as needed */
+            background-color: snow; /* Background for the main container */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Add a shadow */
+            border-radius: 8px; /* Optional: round the corners */
+            overflow: hidden; /* Clip content outside border-radius */
+        }
+
+        /* Left panel: replicate the linear gradient (#FF7878 -> #d11111) */
+        .left-panel {
+            background: linear-gradient(#FF7878, #d11111);
+            flex: 0 0 250px; /* fixed width */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            position: relative;
+        }
+
+        /* Circle container with centered text */
+        .circle {
+            width: 176px;
+            height: 176px;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        /* Centered text inside the circle */
+        .circle-content {
+            text-align: center;
+            color: #fff;               /* white text, like in JavaFX */
+            line-height: 1.2;          /* spacing for text */
+        }
+
+        .left-panel h1 {
+            font-family: 'Segoe UI Semibold', sans-serif;
+            font-size: 25px;
+            margin: 0;
+        }
+
+        .left-panel .sub-label {
+            font-family: 'Segoe UI Semilight', sans-serif;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .left-panel .account-label {
+            font-family: 'Segoe UI Bold';
+            font-size: 13px;
+            margin-top: 30px;
+        }
+
+        .left-panel .signup-btn {
+            margin-top: 10px;
+            padding: 8px 16px;
+            background: linear-gradient(#ffa63f, #f74141);
+            border: none;
+            border-radius: 6px;
+            color: #a80000;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.6);
+        }
+
+        /* Right panel: form area */
+        .right-panel {
+            background-color: snow;
+            flex: 1;
+            padding: 40px;
+            position: relative;
+        }
+
+        .right-panel h2 {
+            text-align: center;
+            color: #a80000;
+            font-family: 'Segoe UI Semibold';
+            font-size: 25px;
+            margin-bottom: 30px;
+        }
+
+        .error {
+            text-align: center;
+            color: red;
+            margin-bottom: 10px;
+            font-family: 'Segoe UI Semilight';
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            width: 100%; /* Limit the width of form elements */
+            max-width: 300px; /* Set a maximum width for form elements */
+        }
+
+        .form-group label {
+            color: #a80000;
+            font-family: 'Segoe UI Semilight';
+            font-size: 15px;
+            margin-bottom: 5px;
+            display: block;
+            text-align: left; /* Align labels to the left within the right panel */
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            font-size: 14px;
+            box-sizing: border-box; /* Ensure padding doesn't increase overall width */
+            border: 1px solid #ccc; /* Add a border for better visual */
+            border-radius: 4px; /* Optional: round input corners */
+        }
+
+        .btn {
+            width: 80%; /* Make buttons the same width as form elements */
+            max-width: 300px;
+            background-color: #A80000;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 10px 16px;
+            font-size: 14px;
+            cursor: pointer;
+            margin: 10px 0; /* Adjust vertical margin */
+            position: relative;
+            left: 10%;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="left-panel">
+        <div class="circle">
+            <div class="circle-content">
+                <h1>LifeFlow</h1>
+                <div class="sub-label">Blood Management System</div>
+            </div>
+        </div>
+        <div class="account-label">Don't have an account?</div>
+        <button class="signup-btn" onclick="goToSignup()">Signup</button>
+    </div>
+
+    <div class="right-panel">
+        <h2>Login</h2>
+        <div class="error" th:text="${errorMessage}"></div>
+
+        <form id="loginForm" method="post" action="#">
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" name="username" placeholder="someone@example.com" required>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" name="password" placeholder="********" required>
+            </div>
+
+            <button type="button" class="btn" onclick="submitForm('/process-login')">Login</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    // JS: navigate to login page
+    function goToSignup() {
+        window.location.href = '/signUp';
+    }
+
+    // JS: handle button clicks to submit form to different endpoints
+    function submitForm(actionUrl) {
+        const form = document.getElementById('loginForm');
+        form.action = actionUrl;
+        form.submit();
+    }
+</script>
+</body>
+</html>
