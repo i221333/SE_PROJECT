@@ -43,23 +43,23 @@ LifeFlow is a comprehensive web-based Blood Donation Management System designed 
 ```
 SE_PROJECT/
 ├───blood-donation-system/
-|   ├───pom.xml
+|   ├───pom.xml                                                                # Configuration file for dependency management
 |   └───src/
 |       └───main/
 |           ├───java/
 |           │   └───com/
 |           │       └───lifeflow/
 |           │           └───blood_donation_system/
-|           │               ├───LifeFlowApplication.java
+|           │               ├───LifeFlowApplication.java                       # Main entry point for application
 |           │               └───backend/
-|           │                   ├───controller/
-|           │                   ├───entity/
-|           │                   ├───repository/
-|           │                   └───service/
+|           │                   ├───controller/                                # Handles HTTP requests and responses
+|           │                   ├───entity/                                    # Defines the database entity models
+|           │                   ├───repository/                                # Data access layer for interacting with the database
+|           │                   └───service/                                   # Contains business logic and services
 |           └───resources/
-|               ├───application.properties
-|               ├───static/
-|               └───templates/
+|               ├───application.properties                                     # Application configuration file (DB connections, properties)
+|               ├───static/                                                    # Static files (CSS, images, etc.)
+|               └───templates/                                                 # Dynamic templates (HTML)
 ├─── LifeFlow-database.sql
 └─── README.md
 ```
